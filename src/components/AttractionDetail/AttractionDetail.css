@@ -1,0 +1,94 @@
+/* ATTRACTION DETAIL CSS */
+
+/* Container */ 
+.attraction-detail-container {
+    max-width: 1020px;
+    display: flex;
+    flex-direction: column;
+    margin: 1rem auto ;
+    gap: 2rem;
+
+
+}
+
+/* Image View */
+.attraction-detail-image-container{
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 2rem;
+    overflow: auto;
+    padding: 0.25rem ;
+}
+.attraction-detail-image{
+    height: 30vh;
+    flex-grow: 1;
+    padding: 1rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+.attraction-detail-image > a > img {
+    max-height: 100%; 
+    min-width: 100%;
+    object-fit: cover;
+}
+
+/* Header  */
+.attraction-detail-header{
+    display: flex; 
+}
+.attraction-detail-title-container{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.attraction-detail-title{
+    display: flex; 
+    gap: 2rem;
+}
+.attraction-detail-name{
+    font-size: xx-large;
+    font-weight: 600;
+    align-self: baseline;
+    margin: 0;
+}
+.attraction-detail-location{
+    font-size: x-large;
+    align-self: baseline;
+    margin: 0;
+}
+.attraction-detail-type-container{
+    display: flex; 
+    gap: 1rem;
+    align-items: flex-start;
+}
+.attraction-detail-type{
+    background-color: lightblue;
+    border-radius: 1rem;
+    font-size: small;
+    padding: 0.25rem 0.5rem;
+    align-self: center;
+}
+.attraction-detail-header-divider{
+    flex-grow: 1;
+}
+.attraction-detail-rating{
+    font-size: x-large;
+    align-self: center;
+}
+
+/* Body */
+.attraction-detail-body{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 2rem;
+}
+
+.attraction-detail-map{
+    grid-column: 0;
+    height: 40vh;
+    width: auto;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
