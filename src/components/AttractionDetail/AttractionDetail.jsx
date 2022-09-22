@@ -5,24 +5,19 @@ const AttractionDetail = () => {
 	const [map, setMap] = useState();
 	const [service, setService] = useState();
 	const [data, setData] = useState();
-	const onClick = () => {};
-	const onIdle = () => {};
 
+	// When the map variable is set add listeners for clicks etc.
 	useEffect(() => {
 		if (map) {
 			['click', 'idle'].forEach((eventName) =>
 				window.google.maps.event.clearListeners(map, eventName)
 			);
-			if (onClick) {
-				map.addListener('click', onClick);
-			}
-
-			if (onIdle) {
-				map.addListener('idle', () => onIdle(map));
-			}
+			map.addListener('click', () => {});
+			map.addListener('idle', () => (map) => {});
 		}
-	}, [map, onClick, onIdle]);
+	}, [map]);
 
+	// set the api service and the map reference on first render
 	useEffect(() => {
 		if (ref.current && !map) {
 			setMap(new window.google.maps.Map(ref.current, {}));
@@ -32,6 +27,8 @@ const AttractionDetail = () => {
 		}
 	}, [ref, map, service]);
 
+	// once the service is instantiated fetch the information
+	// when we have a list of attractions this will be done outside of the component
 	useEffect(() => {
 		if (service && !data) {
 			const request = { placeId: 'ChIJB6CcRP5sVkYRenOflhTdY_Q' };
@@ -46,7 +43,9 @@ const AttractionDetail = () => {
 
 	return (
 		<div className="attraction-detail-container">
+			{/* IMAGE VIEW */}
 			<div className="attraction-detail-image-container">
+				{/* iterate over all the photos in data and display them */}
 				{data?.photos.map((x) => (
 					<div className="attraction-detail-image">
 						<a
@@ -61,6 +60,8 @@ const AttractionDetail = () => {
 					</div>
 				))}
 			</div>
+
+			{/* HEADER */}
 			<div className="attraction-detail-header">
 				<div className="attraction-detail-title-container">
 					<div className="attraction-detail-title">
@@ -80,6 +81,7 @@ const AttractionDetail = () => {
 				<div className="attraction-detail-rating">{data?.rating} &#11088;</div>
 			</div>
 
+			{/* BODY */}
 			<div className="attraction-detail-body">
 				<div className="attraction-detail-map" ref={ref}></div>
 				<div className="attraction-detail-info">
