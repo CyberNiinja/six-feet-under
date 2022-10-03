@@ -1,0 +1,9 @@
+.list-item{
+    display: flex;
+    background-color: beige;
+    gap: 1rem;
+}
+.list-item-img{
+    width: 250px; 
+    height: 150px;
+}

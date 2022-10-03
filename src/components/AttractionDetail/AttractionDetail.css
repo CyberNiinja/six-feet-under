@@ -1,14 +1,13 @@
 /* ATTRACTION DETAIL CSS */
 
 /* Container */ 
-.attraction-detail-container {
+.attraction-detail {
+    background-color: beige;
     max-width: 1020px;
     display: flex;
     flex-direction: column;
     margin: 1rem auto ;
     gap: 2rem;
-
-
 }
 
 /* Image View */
@@ -18,8 +17,12 @@
     gap: 2rem;
     overflow: auto;
     padding: 0.25rem ;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 .attraction-detail-image{
+    background-color: white;
     height: 30vh;
     flex-grow: 1;
     padding: 1rem;
@@ -35,6 +38,7 @@
 /* Header  */
 .attraction-detail-header{
     display: flex; 
+    margin: 0 1rem;
 }
 .attraction-detail-title-container{
     display: flex;
@@ -82,6 +86,7 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
     gap: 2rem;
+    margin: 0 1rem 1rem 1rem;
 }
 
 .attraction-detail-map{
