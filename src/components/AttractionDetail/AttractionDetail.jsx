@@ -3,6 +3,23 @@ import { useEffect, useState, useRef } from 'react';
 const AttractionDetail = ({ place, onClick }) => {
 	const ref = useRef(null);
 	const [map, setMap] = useState();
+	const [description, setDescription] = useState();
+
+	useEffect(() => {
+		if (!description) {
+			fetch(
+				'https://en.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=extracts&exintro=&explaintext=&titles=Karlskrona'
+			)
+				.then((response) => response.json())
+				.then((result) => {
+					const obj = result.query.pages;
+					const ob = Object.keys(obj)[0];
+					console.log(obj[ob]['extract']);
+					setDescription(obj[ob]['extract']);
+				});
+		}
+	}, [description]);
+
 	// set the api service and the map reference on first render
 	useEffect(() => {
 		if (ref.current && !map) {
@@ -14,15 +31,23 @@ const AttractionDetail = ({ place, onClick }) => {
 			);
 		}
 	}, [ref, map, place]);
+
+	console.log(description);
 	return !place ? (
 		<div>isLoading</div>
 	) : (
 		<div className="attraction-detail">
-			<button onClick={onClick}>back</button>
+			<div className="attraction-detail-topbar">
+				<button className="attraction-detail-back" onClick={onClick}>
+					&#8592;
+				</button>
+				<div className="spacer"></div>
+			</div>
+
 			{/* IMAGE VIEW */}
 			<div className="attraction-detail-image-container">
 				{/* iterate over all the photos in data and display them */}
-				{place.photos.map((x) => (
+				{place.photos?.map((x) => (
 					<div className="attraction-detail-image">
 						<a
 							className="responsive"

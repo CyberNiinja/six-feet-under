@@ -34,6 +34,7 @@ const AttractionList = () => {
 			const request = {
 				location: { lat: 56.1612, lng: 15.5869 },
 				radius: 4000,
+				type: ['tourist_attraction'],
 			};
 			service.nearbySearch(request, (result, status) => {
 				setItems(result);

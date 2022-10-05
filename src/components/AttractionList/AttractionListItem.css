@@ -3,7 +3,35 @@
     background-color: beige;
     gap: 1rem;
 }
+.list-item-info{
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+.list-item-type-container {
+    margin-top: 0.25rem;
+    display: flex;
+    flex-direction: row;
+    gap: 0.25rem;
+}
+.list-item-type {
+    background-color: lightblue;
+    border-radius: 1rem;
+    font-size: small;
+    padding: 0.25rem 0.5rem;
+    align-self: center;
+}
 .list-item-img{
     width: 250px; 
     height: 150px;
+}
+.list-item-title{
+    font-size: x-large;
+}
+.open{
+    font-size: xx-large;
+    align-self: center;
+    margin-left:auto;
+    padding: 1rem;
+    cursor: pointer;
 }

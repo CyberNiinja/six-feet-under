@@ -12,25 +12,33 @@ const AttractionListItem = ({ item, service }) => {
 				setShowDetail(false);
 			}}></AttractionDetail>
 	) : (
-		<div
-			className="list-item"
-			onClick={() => {
-				service.getDetails({ placeId: item.place_id }, (result, status) => {
-					setDetails(result);
-				});
-				setShowDetail(true);
-			}}>
+		<div className="list-item">
 			<img
 				className="list-item-img"
 				alt="preview"
-				src={item.photos[0].getUrl()}></img>
+				src={item.photos ? item.photos[0].getUrl() : ''}></img>
 			<div className="list-item-info">
 				<div className="list-item-title">{item.name}</div>
 				<div className="list-item-address">{item.vicinity}</div>
 				<div className="list-item-latlong">
-					{item.geometry.location.lat()} {item.geometry.location.lng()}
+					Lat: {item.geometry.location.lat()} | Lng:{' '}
+					{item.geometry.location.lng()}
 				</div>
-				<div className="list-item-categories">{item.types.join(', ')}</div>
+				<div className="list-item-type-container">
+					{item.types.map((x) => (
+						<div className="list-item-type">{x}</div>
+					))}
+				</div>
+			</div>
+			<div
+				className="open"
+				onClick={() => {
+					service.getDetails({ placeId: item.place_id }, (result, status) => {
+						setDetails(result);
+					});
+					setShowDetail(true);
+				}}>
+				&#8594;
 			</div>
 		</div>
 	);

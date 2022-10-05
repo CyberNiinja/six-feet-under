@@ -4,3 +4,32 @@ main {
     flex-direction: column;
     margin: auto;
 }
+
+header{
+    font-size: larger;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 5vh;
+    padding: 1rem 2rem;
+}
+
+nav{
+ 
+    display: flex;
+    gap: 1rem;
+    
+}
+
+nav > button {
+    font-size: medium;
+    background: none;
+    border:none;
+    border-bottom: 1px solid;
+    
+}
+nav > button:hover {
+    border:none;
+    border-bottom: 4px solid;
+    cursor: pointer;
+}
