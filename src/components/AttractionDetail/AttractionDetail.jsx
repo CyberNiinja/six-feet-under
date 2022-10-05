@@ -1,24 +1,29 @@
 import './AttractionDetail.css';
 import { useEffect, useState, useRef } from 'react';
+import { findBestMatch } from 'string-similarity';
 const AttractionDetail = ({ place, onClick }) => {
 	const ref = useRef(null);
 	const [map, setMap] = useState();
 	const [description, setDescription] = useState();
 
 	useEffect(() => {
-		if (!description) {
+		if (!description && place) {
+			console.log(place.geometry.location.lat());
 			fetch(
-				'https://en.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=extracts&exintro=&explaintext=&titles=Karlskrona'
+				`https://en.wikipedia.org/w/api.php?format=json&origin=*&action=query&prop=extracts&exintro=true&explaintext=true&ggsprop=dist&generator=geosearch&ggscoord=${place.geometry.location.lat()}|${place.geometry.location.lng()}`
 			)
 				.then((response) => response.json())
 				.then((result) => {
+					console.log(result);
 					const obj = result.query.pages;
-					const ob = Object.keys(obj)[0];
-					console.log(obj[ob]['extract']);
-					setDescription(obj[ob]['extract']);
+					const ob = Object.keys(obj);
+					const titles = ob.map((x) => obj[x]['title']);
+					const match = findBestMatch(place.name, titles);
+					console.log(match.ratings[match.bestMatchIndex]);
+					setDescription(obj[ob[match.bestMatchIndex]]['extract']);
 				});
 		}
-	}, [description]);
+	}, [description, place]);
 
 	// set the api service and the map reference on first render
 	useEffect(() => {
@@ -31,8 +36,6 @@ const AttractionDetail = ({ place, onClick }) => {
 			);
 		}
 	}, [ref, map, place]);
-
-	console.log(description);
 	return !place ? (
 		<div>isLoading</div>
 	) : (
@@ -90,6 +93,7 @@ const AttractionDetail = ({ place, onClick }) => {
 				<div className="attraction-detail-info">
 					<div className="attraction-detail-description">
 						<b>Description: </b>
+						<p>{description}</p>
 					</div>
 					<div className="attraction-detail-address">
 						<b>Address:</b> {place.formatted_address}
