@@ -5,10 +5,14 @@ import { useState } from 'react';
 import Catalogues from './components/Catalogues';
 import { Login } from './components/User/Login';
 import { Register } from './components/User/Register';
+import { useNavigate} from "react-router-dom";
 function App() {
 	const [page, setPage] = useState('home');
 	const [isShowing, setIsShowing] = useState(false);
 	const [showRegister, setShowRegister] = useState(false);
+	const onSubmit = () => {
+		 setIsShowing(false);
+	}
 	return (
 		<div className="App">
 			<header>
@@ -50,7 +54,7 @@ function App() {
 						{!showRegister ? (
 							<Login onRegister={() => setShowRegister(true)}></Login>
 						) : (
-							<Register></Register>
+							<Register onSubmit={onSubmit}></Register>
 						)}
 					</div>
 				</div>
