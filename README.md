@@ -11,4 +11,6 @@ In order to run the website you need to complete following steps:
 - download the code with git (any git interface should work, we used Github Desktop)
 - Open the directory (`cd path/to/directory`)
 - run `npm install`
-- run `npm start`
+- run `npm start` to setup fronted
+- run `nodemon index` in backend folder
+- setup MongoDB database for user management. 
