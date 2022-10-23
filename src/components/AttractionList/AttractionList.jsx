@@ -1,21 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import AttractionListItem from './AttractionListItem';
-const AttractionList = () => {
+const AttractionList = ({ place }) => {
 	const ref = useRef(null);
 	const [map, setMap] = useState();
 	const [service, setService] = useState();
 	const [items, setItems] = useState();
-
-	// When the map variable is set add listeners for clicks etc.
-	useEffect(() => {
-		if (map) {
-			['click', 'idle'].forEach((eventName) =>
-				window.google.maps.event.clearListeners(map, eventName)
-			);
-			map.addListener('click', () => {});
-			map.addListener('idle', () => (map) => {});
-		}
-	}, [map]);
 
 	// set the api service and the map reference on first render
 	useEffect(() => {
@@ -30,9 +19,13 @@ const AttractionList = () => {
 	// once the service is instantiated fetch the information
 	// when we have a list of attractions this will be done outside of the component
 	useEffect(() => {
-		if (service && !items) {
+		if (place && service) {
+			console.log(place);
 			const request = {
-				location: { lat: 56.1612, lng: 15.5869 },
+				location: {
+					lat: place.geometry.location.lat(),
+					lng: place.geometry.location.lng(),
+				},
 				radius: 4000,
 				type: ['tourist_attraction'],
 			};
@@ -41,19 +34,23 @@ const AttractionList = () => {
 				console.log(result);
 			});
 		}
-	}, [items, service]);
+	}, [service, place]);
 
 	return (
-		<div style={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}>
-			<div ref={ref}></div>
-			{items ? (
-				items.map((x) => (
-					<AttractionListItem item={x} key={x.place_id} service={service} />
-				))
-			) : (
-				<div>is loading</div>
-			)}
-		</div>
+		<>
+			<div className="results-container">
+				<div style={{ display: 'flex', gap: '1rem', flexDirection: 'column' }}>
+					<div ref={ref}></div>
+					{items ? (
+						items.map((x) => (
+							<AttractionListItem item={x} key={x.place_id} service={service} />
+						))
+					) : (
+						<div></div>
+					)}
+				</div>
+			</div>
+		</>
 	);
 };
 export default AttractionList;

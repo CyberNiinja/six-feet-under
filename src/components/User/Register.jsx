@@ -1,38 +1,40 @@
 import { useState } from 'react';
-import axios from "axios";
+import axios from 'axios';
 import './user.css';
-//import { useNavigate } from "react-router-dom";
-export const Register = ({onSubmit}) => {
+export const Register = ({ onLoginClick }) => {
 	const [email, setEmail] = useState();
 	const [password, setPassword] = useState();
 	const [name, setName] = useState('');
-	// const [confirmPassword, setConfirmPassword] = useState();
 	const [confPassword, setConfPassword] = useState('');
-	const [msg, setMsg] = useState('');
-	//const navigate = useNavigate();
-	const onClick = async(e) => {
-				e.preventDefault();
-        try {
-            let x = axios.post('http://localhost:5000/users', {
-								name: name,
-                email: email,
-                password: password,
-                confPassword: confPassword
-            });
-						onSubmit();
-						await x;
-				//		navigate.push("/home");
-        } catch (error) {
-            if (error.response) {
-                setMsg(error.response.data.msg);
-            }
-        }
+	const onClick = async (e) => {
+		e.preventDefault();
+		try {
+			let x = await axios.post('http://localhost:5000/users', {
+				name: name,
+				email: email,
+				password: password,
+				confPassword: confPassword,
+			});
+			if (x.status === 200) {
+				alert('success');
+				onLoginClick();
+			}
+			if (x.status !== 200) {
+				alert('something went wrong');
+			}
+		} catch (error) {
+			if (error.response) {
+				alert(error.response.data.msg);
+			}
+		}
 	};
 
 	return (
-			<div className="form">
+		<div className="form">
 			<div className="form-field">
-				<label html-for="form-nam" className="form-field-label">Username</label>
+				<label html-for="form-nam" className="form-field-label">
+					Username
+				</label>
 				<input
 					id="form-nam"
 					name="form-nam"
@@ -41,9 +43,11 @@ export const Register = ({onSubmit}) => {
 					className="form-field-input"
 					value={name}
 					onChange={(e) => setName(e.target.value)}></input>
-					</div>
+			</div>
 			<div className="form-field">
-				<label html-for="form-email" className="form-field-label">Email</label>
+				<label html-for="form-email" className="form-field-label">
+					Email
+				</label>
 				<input
 					id="form-email"
 					name="form-email"
@@ -54,7 +58,9 @@ export const Register = ({onSubmit}) => {
 					onChange={(e) => setEmail(e.target.value)}></input>
 			</div>
 			<div className="form-field">
-				<label html-for="form-password" className="form-field-label">Provide Password</label>
+				<label html-for="form-password" className="form-field-label">
+					Provide Password
+				</label>
 				<input
 					id="form-password"
 					name="form-password"
@@ -65,7 +71,9 @@ export const Register = ({onSubmit}) => {
 					onChange={(e) => setPassword(e.target.value)}></input>
 			</div>
 			<div className="form-field">
-				<label html-for="form-password-confirm" className="form-field-label">Repeat Password</label>
+				<label html-for="form-password-confirm" className="form-field-label">
+					Repeat Password
+				</label>
 				<input
 					id="form-password-confirm"
 					name="form-password-confirm"
@@ -76,6 +84,12 @@ export const Register = ({onSubmit}) => {
 					onChange={(e) => setConfPassword(e.target.value)}></input>
 			</div>
 			<button onClick={onClick}>Register</button>
+			<div>
+				Already have an account?{' '}
+				<a href="#" onClick={onLoginClick}>
+					Log in now!
+				</a>
+			</div>
 		</div>
 	);
 };

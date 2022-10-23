@@ -1,64 +1,48 @@
 import './App.css';
-import { Wrapper } from '@googlemaps/react-wrapper';
-import AttractionList from './components/AttractionList/AttractionList';
-import { useState } from 'react';
-import Catalogues from './components/Catalogues';
+import { useEffect, useState } from 'react';
 import { Login } from './components/User/Login';
 import { Register } from './components/User/Register';
-import { useNavigate} from "react-router-dom";
+import { Home } from './components/home';
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 function App() {
-	const [page, setPage] = useState('home');
-	const [isShowing, setIsShowing] = useState(false);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [showRegister, setShowRegister] = useState(false);
-	const onSubmit = () => {
-		 setIsShowing(false);
-	}
+	const [name, setName] = useState('');
+
+	const refreshToken = async () => {
+		try {
+			const response = await axios.get('http://localhost:5000/token');
+			if (response.status === 200) {
+				const decoded = jwt_decode(response.data.accessToken);
+				setName(decoded.name);
+				setIsLoggedIn(true);
+			}
+		} catch (error) {}
+	};
+
+	const logout = async () => {
+		await axios.delete('http://localhost:5000/logout');
+		setIsLoggedIn(false);
+	};
+
+	useEffect(() => {
+		refreshToken();
+	});
 	return (
 		<div className="App">
-			<header>
-				<div>SIX FEET UNDER</div>
-				<nav>
-					<button onClick={() => setPage('home')}>Home</button>
-					<button onClick={() => setPage('sweden')}>Sweden Catalogue</button>
-					<button onClick={() => setPage('iran')}>Iran Catalogue</button>
-					<button onClick={() => setPage('pakistan')}>
-						Pakistan Catalogue
-					</button>
-					<button onClick={() => setPage('ukraine')}>Ukraine Catalogue</button>
-					<button
-						onClick={() => {
-							setIsShowing(true);
-						}}>
-						Login
-					</button>
-				</nav>
-			</header>
-			<main>
-				{page === 'home' && (
-					<Wrapper
-						apiKey="AIzaSyC_yWvLfwqaS3kE2MUOLM7P3otOl-KSFbU"
-						libraries={['places']}>
-						<AttractionList />
-					</Wrapper>
-				)}
-
-				{(page === 'sweden' ||
-					page === 'iran' ||
-					page === 'pakistan' ||
-					page === 'ukraine') && <Catalogues country={page}></Catalogues>}
-			</main>
-			{isShowing && (
+			{!isLoggedIn && (
 				<div className="background-layer">
-					<div className="modal">
-						<div className="close">&#10006;</div>
-						{!showRegister ? (
-							<Login onRegister={() => setShowRegister(true)}></Login>
-						) : (
-							<Register onSubmit={onSubmit}></Register>
-						)}
-					</div>
+					{!showRegister ? (
+						<Login
+							onRegisterClick={() => setShowRegister(true)}
+							onAuth={() => setIsLoggedIn(true)}></Login>
+					) : (
+						<Register onLoginClick={() => setShowRegister(false)}></Register>
+					)}
 				</div>
 			)}
+			{isLoggedIn && <Home logout={logout} username={name}></Home>}
 		</div>
 	);
 }

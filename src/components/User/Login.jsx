@@ -1,26 +1,33 @@
 import { useState } from 'react';
 import './user.css';
-import axios from "axios";
+import axios from 'axios';
 
-export const Login = ({ onRegister }) => {
+export const Login = ({ onRegisterClick, onAuth }) => {
 	const [email, setEmail] = useState();
 	const [password, setPassword] = useState();
-	const [msg, setMsg] = useState('');
-	const onSubmit = () => {};
+	const authenticate = async (e) => {
+		e.preventDefault();
+		try {
+			var x = await axios.post('http://localhost:5000/login', {
+				email: email,
+				password: password,
+			});
 
-	const Auth = async (e) => {
-	        e.preventDefault();
-	        try {
-	            await axios.post('http://localhost:5000/login', {
-	                email: email,
-	                password: password
-	            });
-	        } catch (error) {
-	            if (error.response) {
-	                setMsg(error.response.data.msg);
-	            }
-	        }
-	    }
+			if (x.status === 200) {
+				onAuth();
+			}
+			if (x.status === 404) {
+				alert('email not found');
+			}
+			if (x.status === 400) {
+				alert('authentication failed, invalid credentials');
+			}
+		} catch (error) {
+			if (error.response) {
+				alert(error.response.data.msg);
+			}
+		}
+	};
 	return (
 		<div className="form">
 			<div className="form-field">
@@ -47,11 +54,11 @@ export const Login = ({ onRegister }) => {
 			</div>
 			<div>
 				Not registered yet?{' '}
-				<a href="#" onClick={onRegister}>
+				<a href="#" onClick={onRegisterClick}>
 					Register now!
 				</a>
 			</div>
-			<button onClick={onSubmit}>Login</button>
+			<button onClick={authenticate}>Login</button>
 		</div>
 	);
 };
