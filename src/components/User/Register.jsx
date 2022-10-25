@@ -31,6 +31,7 @@ export const Register = ({ onLoginClick }) => {
 
 	return (
 		<div className="form">
+		<h2>Register Now</h2>
 			<div className="form-field">
 				<label html-for="form-nam" className="form-field-label">
 					Username

@@ -30,6 +30,7 @@ export const Login = ({ onRegisterClick, onAuth }) => {
 	};
 	return (
 		<div className="form">
+		<h2>Login to Six Feet Under</h2>
 			<div className="form-field">
 				<label html-for="form-email" className="form-field-label">
 					Email
