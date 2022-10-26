@@ -59,7 +59,7 @@ export const Login = ({ onRegisterClick, onAuth }) => {
 					Register now!
 				</a>
 			</div>
-			<button onClick={authenticate}>Login</button>
+			<button class="button2" onClick={authenticate}>Login</button>
 		</div>
 	);
 };

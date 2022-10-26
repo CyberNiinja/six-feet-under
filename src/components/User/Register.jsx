@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { FlexiPasswordChecklist } from 'react-flexi-password-checklist';
 import './user.css';
 export const Register = ({ onLoginClick }) => {
 	const [email, setEmail] = useState();
@@ -84,7 +85,12 @@ export const Register = ({ onLoginClick }) => {
 					value={confPassword}
 					onChange={(e) => setConfPassword(e.target.value)}></input>
 			</div>
-			<button onClick={onClick}>Register</button>
+
+				<FlexiPasswordChecklist password={password}
+               confirmPassword={confPassword}
+                	config={{ matchPasswords : true}}
+										/>
+			<button class="button2" onClick={onClick}>Register</button>
 			<div>
 				Already have an account?{' '}
 				<a href="#" onClick={onLoginClick}>
